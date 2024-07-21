@@ -10,5 +10,11 @@ class Blog extends Model
 {
     use HasFactory, HasUuids;
 
-    protected $fillable = [];
+     protected $fillable = [
+        'title',
+        'content',
+        'imageUrl',
+        'tags',
+        'author',
+    ];
 }

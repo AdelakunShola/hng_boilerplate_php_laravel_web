@@ -43,3 +43,10 @@ Route::prefix('v1')->group(function () {
         Route::apiResource('/plans', SubscriptionController::class);
     });
 });
+
+
+Route::middleware(['auth:api', 'super_admin'])->group(function () {
+
+    Route::post('/v1/blogs', [BlogController::class, 'store']);
+    
+});

@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api\V1\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Blog;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
 
 class BlogController extends Controller
@@ -71,9 +73,36 @@ class BlogController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
+            'tags' => 'array',
+            'imageUrl' => 'array', // Treat as array but store as JSON string
+        ]);
+    
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => 'Bad Request',
+                'status_code' => 400,
+                'errors' => $validator->errors(),
+            ], 400);
+        }
+    
+        $blog = Blog::create([
+            'title' => $request->title,
+            'content' => $request->content,
+            'tags' => json_encode($request->tags), // Convert array to JSON string
+            'imageUrl' => json_encode($request->imageUrl), // Convert array to JSON string
+            'author' => $request->user()->id,
+        ]);
+    
+        return response()->json([
+            'status_code' => 201,
+            'message' => 'Blog created successfully',
+            'data' => $blog,
+        ], 201);
     }
-
+    
     /**
      * Display the specified resource.
      */
