@@ -69,7 +69,5 @@ Route::prefix('v1')->group(function () {
 
 
 Route::middleware(['auth:api', 'super_admin'])->group(function () {
-
     Route::post('/v1/blogs', [BlogController::class, 'store']);
-    
 });
