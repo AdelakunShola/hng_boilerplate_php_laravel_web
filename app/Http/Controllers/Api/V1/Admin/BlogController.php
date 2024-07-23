@@ -76,7 +76,7 @@ class BlogController extends Controller
             'title' => 'required|string|max:255',
             'content' => 'required|string',
             'tags' => 'array',
-            'imageUrl' => 'array', // Treat as array but store as JSON string
+            'imageUrl' => 'array', 
         ]);
     
         if ($validator->fails()) {
@@ -90,8 +90,8 @@ class BlogController extends Controller
         $blog = Blog::create([
             'title' => $request->title,
             'content' => $request->content,
-            'tags' => json_encode($request->tags), // Convert array to JSON string
-            'imageUrl' => json_encode($request->imageUrl), // Convert array to JSON string
+            'tags' => json_encode($request->tags), 
+            'imageUrl' => json_encode($request->imageUrl), 
             'author' => $request->user()->id,
         ]);
     
