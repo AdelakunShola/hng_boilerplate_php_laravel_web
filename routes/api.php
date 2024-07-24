@@ -78,10 +78,13 @@ Route::prefix('v1')->group(function () {
         Route::get('/testimonials/{testimonial_id}', [TestimonialController::class, 'show']);
         Route::get('/jobs', [JobController::class, 'index']);
     });
+
+
+    Route::middleware(['auth:api', 'super_admin'])->group(function () {
+        Route::post('/v1/blogs', [BlogController::class, 'store']);
+    });
 });
 
 
 
-Route::middleware(['auth:api', 'super_admin'])->group(function () {
-    Route::post('/v1/blogs', [BlogController::class, 'store']);
-});
+
